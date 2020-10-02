@@ -4,10 +4,10 @@
  * 점수 발생 안내문구 추가!
  */
 public class Obtained_Card {
-	int[] card = new int[48];
+	static int[] card = new int[48]; //마찮가지로 static으로 선언하여 일부수정이 전체에서 변동되도록한다
 	
-	void userAdd(Card card){
-		for(int i=0;i<48;i++) this.card[i] = card.card[i];
+	void add(Card card){
+		for(int i=0;i<48;i++) this.card[i] = card.card[i];//오류
 	}
 	
 	int computeScore(){
