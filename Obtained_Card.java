@@ -1,45 +1,53 @@
 /**
- * 
- * @author user
- * 점수 발생 안내문구 추가!
+ * @class Obtained_Card
+ * @name 컴공 2017136064 오승윤
+ * @project go-stop
+ * @detail 획득한 카드를 저장 및 점수 계산하는 클래스
+ * - 획득한 카드들의 정보를 가지고 점수획득 조건에 따라 최종 점수룰 반환하는 클래스
+ * - add method: 생성한 카드 정보를 Obtained_Card 맴버 변수에 저장
+ * - computeScore method: 각 점수획득 종류를 상수리스트로 만들어 두고 "향상된 for문"을 이용하여 기준을 대조하여 점수를 반환한다.
+ * - 이 클래스 맴버변수 또한 static으로 맴벼변수를 공유하도록 한다
+ * - 점수 내용을 알리는 print문은 프로젝트 완성 단계에서 추가 예정
  */
 public class Obtained_Card {
 	static int[] card = new int[48]; //마찮가지로 static으로 선언하여 일부수정이 전체에서 변동되도록한다
 	
-	void add(Card card){
-		for(int i=0;i<48;i++) this.card[i] = card.card[i];//오류
+	public void add(Card card){
+		for(int i=0;i<48;i++) this.card[i] = card.card[i];//생성된 카드데이터를 저장
 	}
 	
-	int computeScore(){
+	public int computeScore(){
 		final int[] gwang = {1,9,29,41,45};//광 데이터 리스트
 		final int[] yeolkkeut = {5,13,17,21,25,30,37,46};//열끗 데이터 리스트
 		final int[] okkeut = {2,6,10,14,18,22,26,34,38,46};//오끗 데이터 리스트
 		final int[] p = {3,4,7,8,11,12,15,16,19,20,23,24,27,28,31,32,35,36,39,40,43,44,33,42,48};//피 데이터 리스트: 마지막 3개는 쌍피 +쌍피는 추후 추가 가능
-		int score =0;
-		int count=0;
+		
+		int score =0; //점수
+		int count=0; //해당 점수 획득 조건 카드중 몇개를 가졌는지 카운트
+		
 //==============================================================================================	
 		//광
 		for(int i : gwang) //향상된 for문 사용 
 		{
-			if(card[i-1]==1) count++;
+			if(card[i-1]==1) count++;//광 카드중 몇장을 보유했는지 카운트
 		}
 		
-		if(count==3) 
+		if(count==3) //3광
 		{
-			if(card[44]==1) score +=2; // 45번째 카드 : 배열은 0 부터 시작임으로 "-1" 해준 위치를 넣어야 한다.
-			else score +=3;
+			if(card[44]==1) score +=2; //비광: 45번째 카드 포함 : 배열은 0 부터 시작임으로 "-1" 해준 위치를 넣어야 한다. 이하 동일
+			else score +=3; //비광이 x 경우
 		}
-		if(count==4) score +=4;
+		if(count==4) score +=4; //4광
 			
-		if(count==5) score += 15;		
+		if(count==5) score += 15;//5광	
 //==============================================================================================
 		//열끗
 		count = 0;
 		for(int i : yeolkkeut) //향상된 for문 사용 
 		{
-			if(card[i-1]==1) count++;
+			if(card[i-1]==1) count++;//열끗 카드중 몇장을 보유했는지 카운트
 		}
-		if(count>=3) //수정 고려
+		if(count>=3) 
 		{
 			if(card[4]==1 && card[12]==1 && card[29]==1) score +=5; //고도리
 		}
@@ -49,7 +57,7 @@ public class Obtained_Card {
 		count = 0;
 		for(int i : okkeut) //향상된 for문 사용 
 		{
-			if(card[i-1]==1) count++;
+			if(card[i-1]==1) count++;//오끗 카드중 몇장을 보유했는지 카운트
 		}
 		
 		if(count>=3)//청단,홍단,초단인 경우 //수정 고려
@@ -59,7 +67,7 @@ public class Obtained_Card {
 			if(card[13]==1 && card[17]==1 && card[25]==1) score +=3;//초단
 			
 		}
-		if(count>=5) score+=(count-4);//5개부터 1점 이후 하나씩 늘어날때마다 1점씩 추가
+		if(count>=5) score+=(count-4);//5개부터 1점, 이후 한장당 1점 추가
 //===============================================================================================		
 		//피
 		count = 0;
@@ -67,14 +75,14 @@ public class Obtained_Card {
 		{
 			if(card[i-1]==1) 
 			{ 	
-				count++;
+				count++;//피 카드중 몇장을 보유했는지 카운트
 				if(i==33||i==42||i==48) count++;//쌍피는 카운트 하나 더
 			}
 		}
-		if(count>=10) score += (count%10+1);
+		if(count>=10) score += (count%10+1);//10개 부터 1점 , 이후 한장당 1점추가
 //==============================================================================================	
 		
-		return score;
+		return score; //최종 점수
 	}
 
 }
